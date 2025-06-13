@@ -7,102 +7,72 @@
 #include <dt-bindings/zmk/pointing.h>
 
 / {
-    /* Use the default matrix transform (from the board/shield) */
-    chosen { zmk,matrix_transform = &default_transform; };
-};
-
-&mt {
-    quick-tap-ms = <100>;
-    global-quick-tap;
-    flavor = "tap-preferred";
-    tapping-term-ms = <170>;
-};
-
-&lt {
-    quick-tap-ms = <100>;
-    global-quick-tap;
-    flavor = "tap-preferred";
-    tapping-term-ms = <170>;
-};
-
-/ { 
-    combos {
-        compatible = "zmk,combos";
-        combo_esc {                           /* Combo: Q + W -> Esc */
-            timeout-ms = <50>;
-            key-positions = <0 1>;           /* Positions of Q and W keys */
-            bindings = <&kp ESC>;
-        };
-        // (Add other combos here if needed)
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
-        /* Layer 0: BASE (Prospector default layer, e.g. QWERTY with home-row mods) */
-        BASE {
+        base_layer {
             bindings = <
-                &kp GRAVE       &kp N1        &kp N2         &kp N3        &kp N4        &kp N5            &kp N6         &kp N7         &kp N8         &kp N9         &kp N0          &kp MINUS
-                &kp TAB         &kp Q         &kp W          &kp E         &kp R         &kp T             &kp Y          &kp U          &kp I          &kp O          &kp P           &kp EQUAL
-                &kp ESC         &mt LCTRL A   &mt LALT S     &mt LGUI D    &mt LSHIFT F  &kp G             &kp H          &mt RSHIFT J   &mt RGUI K    &mt RALT L      &mt RCTRL SEMI  &kp APOS
-                &kp LSHIFT      &lt 3 Z       &kp X          &kp C         &kp V         &kp B             &kp N          &kp M          &kp COMMA      &kp DOT        &lt 3 SLASH     &kp RSHIFT
-                               /* Left thumb cluster */                                   /* Right thumb cluster */
-                               &lt 1 TAB      &kp BACKSPACE  &kp LGUI      &kp SPACE     &kp DEL      &kp ENTER         &kp SPACE       &lt 2 BACKSPACE
+                &kp ESC    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5        &kp N6    &kp N7    &kp N8    &kp N9    &kp N0        &kp BSPC
+                &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T         &kp Y     &kp U     &kp I     &kp O     &kp P         &kp MINUS
+                &kp LCTRL &kp A     &kp S     &kp D     &kp F     &kp G         &kp H     &kp J     &kp K     &kp L     &kp SEMICOLON &lt 2 APOSTROPHE
+                &mt LSHIFT UP   &lt 5 Z   &kp X   &kp C   &kp V   &kp B         &kp N   &kp M   &kp COMMA   &kp DOT   &lt 5 SLASH   &lt 4 DOWN
+                &kp LALT   &kp SPACE    &mt LGUI SPACE             &tog 1    &mt RGUI ENTER   &none
+                &mo 3      &mt LALT LEFT_PARENTHESIS   &mt RALT RIGHT_PARENTHESIS   &none
             >;
         };
 
-        /* Layer 1: NAV (Navigation layer for arrows, function keys, etc.) */
-        NAV {
+        numeric_layer {
             bindings = <
-                &kp F12           &kp F1           &kp F2           &kp F3            &kp F4            &kp F5              &kp F6             &kp F7           &kp F8           &kp F9           &kp F10         &kp F11
-                &trans            &kp SCROLLLOCK   &kp PAUSE_BREAK  &kp UP            &kp EQUAL         &kp LBRC           &kp RBRC           &kp N7           &kp N8           &kp N9           &kp KP_PLUS     &trans
-                &kp PRINTSCREEN   &kp INSERT       &kp LEFT         &kp DOWN          &kp RIGHT         &kp LBKT           &kp RBKT           &kp N4           &kp N5           &kp N6           &kp KP_MINUS    &kp KP_DIVIDE
-                &trans            &kp DELETE       &kp PG_UP        &kp CAPSLOCK      &kp PG_DN         &kp LPAR           &kp RPAR           &kp N1           &kp N2           &kp N3           &kp KP_MULTIPLY &trans
-                                   &trans           &trans           &kp C_VOLUME_DOWN &kp C_VOLUME_UP   &trans             &kp KP_DOT         &kp N0           &mo 3            /* (Thumb keys for Nav layer) */
+                &kp GRAVE     &kp EXCLAMATION   &kp AT_SIGN   &kp HASH       &kp DOLLAR   &kp PERCENT      &kp CARET   &kp AMPERSAND   &kp ASTERISK   &kp UNDERSCORE   &kp PLUS   &kp BSPC
+                &kp TAB       &kp EXCLAMATION   &kp AT_SIGN   &kp HASH       &kp DOLLAR   &kp PERCENT      &kp CARET   &kp AMPERSAND   &kp ASTERISK   &kp MINUS        &kp EQUAL  &none
+                &kp N0        &kp N1            &kp N2        &kp N3         &kp N4       &kp N5           &kp N6      &kp N7          &kp N8         &kp N9           &kp N0     &lt 2 ENTER
+                &mt LSHIFT LEFT   &kp GRAVE   &kp BSLH   &kp BSLH   &kp LBRC   &kp LBKT      &kp RBKT   &kp RBRC   &kp COMMA   &kp DOT   &kp PIPE   &mt RSHIFT RIGHT
+                &none   &none   &none           &none   &none   &none
+                &none   &none                   &none   &none
             >;
         };
 
-        /* Layer 2: SYM (Symbols layer for punctuation, media, etc.) */
-        SYM {
+        move_layer {
             bindings = <
-                &kp F12          &kp F1         &kp F2         &kp F3             &kp F4            &kp F5              &kp F6             &kp F7         &kp F8         &kp F9         &kp F10        &kp F11
-                &trans           &kp EXCL       &kp AT         &kp HASH           &kp DOLLAR        &kp PERCENT         &kp CARET          &kp AMPS       &kp ASTERISK   &kp QUESTION   &kp SQT        &trans
-                &trans           &kp PLUS       &kp EQUAL      &kp LPAR           &kp RPAR          &kp DQT             &kp COLON          &kp LBKT       &kp RBKT       &kp LBRC       &kp RBRC      &trans
-                &trans           &kp LESS_THAN  &kp PIPE       &kp MINUS          &kp GREATER_THAN  &kp BACKSLASH       &kp GRAVE          &kp UNDERSCORE &kp SLASH      &kp TILDE      &kp SEMICOLON &trans
-                                   &mo 3          &trans         &kp C_VOLUME_DOWN  &kp C_VOLUME_UP   &trans             &kt C_FAST_FORWARD &kp C_PLAY_PAUSE &trans        /* Media keys on thumbs (Fast Forward, Play/Pause) */
+                &none   &none   &none   &none   &none   &none        &none   &none   &none   &none   &none   &none
+                &none   &kp PGUP   &kp UP   &none   &none   &none        &none   &none   &none   &none   &none   &none
+                &kp HOME   &kp LEFT   &kp DOWN   &kp RIGHT   &kp END   &none        &kp LEFT   &kp UP   &kp DOWN   &kp RIGHT   &none   &none
+                &none   &none   &kp PGDN   &none   &none   &none        &none   &none   &none   &none   &none   &none
+                &none   &none   &none           &none   &none   &none
+                &none   &none                   &none   &none
             >;
         };
 
-        /* Layer 3: ADJ (Adjust layer – Bluetooth, reset, and toggles) */
-        ADJ {
+        emacs_layer {
             bindings = <
-                &kp F12        &kp F1        &kp F2           &kp F3           &kp F4           &kp F5            &kp F6             &kp F7        &kp F8        &kp F9        &kp F10        &kp F11
-                &trans         &sys_reset    &bt BT_PRV       &bt BT_NXT       &bt BT_CLR       &out OUT_TOG      &bt BT_SEL 0       &bt BT_CLR    &bt BT_PRV    &bt BT_NXT    &sys_reset     &trans
-                &trans         &bootloader   &kp C_PREVIOUS   &kp C_PLAY_PAUSE &kp C_NEXT       &kp C_MUTE        &bt BT_SEL 1       &mkp MB1      &mkp MB2      &mkp MB3      &bootloader    &trans
-                &trans         &trans        &mo 5            &mo 4            &kp C_VOLUME_DOWN &kp C_VOLUME_UP   &bt BT_SEL 2       &trans        &mo 4         &mo 5         &trans         &trans
-                               &trans         &trans           &trans           &trans           &trans           &trans             &trans         &trans                     &trans           /* (No thumb actions on ADJ aside from layer 4/5 triggers) */
+                &kp ESC   &none   &none   &none   &none   &none        &none   &none   &none   &none   &none   &none
+                &none     &none   &none   &none   &none   &none        &none   &none   &none   &none   &none   &none
+                &none     &none   &none   &none   &none   &none        &none   &none   &none   &none   &none   &none
+                &bootloader   &none   &none   &none   &none   &none      &none   &none   &none   &none   &none   &none
+                &none   &none   &none           &none   &none   &none
+                &none   &none                   &mo 4   &none
             >;
         };
 
-        /* Layer 4: SNIP (Sniping layer – e.g., low DPI cursor movement) */
-        SNIP {
+        hypm_layer {
             bindings = <
-                &trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans    &trans    &trans  &trans
-                &trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans    &trans    &trans  &trans
-                &trans  &trans  &trans  &trans  &trans  &trans    &trans    &mkp MB1  &mkp MB2  &mkp MB3  &trans  &trans
-                &trans  &trans  &mo 5   &trans  &trans  &trans    &trans    &trans    &trans    &mo 5     &trans  &trans
-                         &trans  &trans  &trans  &trans  &trans    &trans    &trans              &trans
+                &none   &none   &none   &none   &none   &none        &none   &none   &none   &none   &none   &none
+                &none   &none   &none   &none   &none   &none        &none   &none   &none   &none   &none   &none
+                &none   &none   &none   &none   &none   &none        &none   &none   &none   &none   &none   &bootloader
+                &none   &none   &none   &none   &none   &none        &none   &none   &none   &none   &none   &none
+                &none   &none   &none           &none   &none   &none
+                &none   &none                   &none   &none
             >;
         };
 
-        /* Layer 5: SCROLL (Scroll layer – e.g., trackball scroll mode) */
-        SCROLL {
+        mouse_layer {
             bindings = <
-                &trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans    &trans    &trans  &trans
-                &trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans    &trans    &trans  &trans
-                &trans  &trans  &trans  &trans  &trans  &trans    &trans    &mkp MB1  &mkp MB2  &mkp MB3  &trans  &trans
-                &trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans    &trans    &trans  &trans
-                         &trans  &trans  &trans  &trans  &trans    &trans    &trans              &trans
+                &none   &none   &none   &none   &none   &none        &none   &none   &none   &none   &none   &none
+                &none   &kp SNIPER_CONFIG   &none   &none   &none   &none        &none   &none   &none   &none   &none   &none
+                &none   &kp DPI_CONFIG   &kp DRAG_SCROLL   &none   &none   &none        &none   &none   &kp DRAG_SCROLL   &none   &none   &none
+                &none   &none   &none   &none   &none   &none        &none   &kp BTN1   &kp BTN2   &kp BTN3   &none   &none
+                &kp BTN2   &kp BTN1   &kp LGUI           &none   &none   &none
+                &kp LCTRL  &kp LSHIFT                 &none   &none
             >;
         };
 
