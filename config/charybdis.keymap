@@ -1,10 +1,9 @@
-#include "keys_de_swiss.h"
 #include <dt-bindings/zmk/mouse.h>
 #include <behaviors/mouse_keys.dtsi>
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/ext_power.h>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
 
 / {
@@ -29,298 +28,100 @@
     combos {
         compatible = "zmk,combos";
 
-        to-WIN {
-            bindings = <&to 0>;
-            key-positions = <50 51>;
-            layers = <3 6 11>;
-        };
-
-        to-MAC {
-            bindings = <&to 3>;
-            key-positions = <50 51>;
-            layers = <0 6 11>;
-        };
-
-        to-GAME {
-            bindings = <&to 6>;
-            key-positions = <47 36>;
-            layers = <0 3 11>;
-        };
-
-        to-FN {
-            bindings = <&to 11>;
-            key-positions = <41 42>;
-            layers = <0 3 6>;
-        };
-
-        caps_word {
-            bindings = <&caps_word>;
-            key-positions = <31 28>;
-        };
-
-        rh_leftClick {
-            bindings = <&mkp LCLK>;
-            key-positions = <43 44>;
-        };
-
-        rh_rightClick {
-            bindings = <&mkp RCLK>;
-            key-positions = <44 45>;
-        };
-
-        rh_middleClick {
-            bindings = <&mkp MCLK>;
-            key-positions = <43 44 45>;
-        };
-
-        lh_leftClick {
-            bindings = <&mkp LCLK>;
-            key-positions = <40 39>;
-        };
-
-        lh_rightClick {
-            bindings = <&mkp RCLK>;
-            key-positions = <38 39>;
-        };
-
-        lh_middleClick {
-            bindings = <&mkp MCLK>;
-            key-positions = <38 39 40>;
-        };
-
-        CAPZ {
-            bindings = <&kp CAPSLOCK>;
-            key-positions = <24 25>;
-        };
-    };
-
-    // Optional custom hold-tap behaviors (not used in keymap below):
-    // hmr and hml defined if needed for advanced hold-preferred behaviors.
-    behaviors {
-        hmr: hmr {
-            compatible = "zmk,behavior-hold-tap";
-            label = "HMR";
-            bindings = <&kp>, <&kp>;
-            #binding-cells = <2>;
-            tapping-term-ms = <190>;
-            quick-tap-ms = <175>;
-            flavor = "balanced";
-            hold-trigger-key-positions = <0 1 2 3 4 5   12 13 14 15 16 17   24 25 26 27 28 29   36 37 38 39 40 41   48 49 50 51 52 53 54 55>;
-            hold-trigger-on-release;
-        };
-        hml: hml {
-            compatible = "zmk,behavior-hold-tap";
-            label = "HML";
-            bindings = <&kp>, <&kp>;
-            #binding-cells = <2>;
-            tapping-term-ms = <190>;
-            quick-tap-ms = <175>;
-            flavor = "balanced";
-            hold-trigger-key-positions = <6 7 8 9 10 11   18 19 20 21 22 23   30 31 32 33 34 35   42 43 44 45 46 47   51 52 53 54 55>;
-            hold-trigger-on-release;
+        combo_esc {
+            timeout-ms = <50>;
+            key-positions = <0 1>;
+            bindings = <&kp ESC>;
         };
     };
 
     keymap {
         compatible = "zmk,keymap";
 
-        default_win_layer {
-            label = "QUERTZ";
-            bindings = < 
-                // Row 0: Esc and number row (6 left + 6 right)
-                &kp ESCAPE   &kp N1        &kp N2        &kp N3        &kp N4        &kp N5 
-                           &kp N6        &kp N7        &kp N8        &kp N9        &kp N0        &kp BACKSPACE 
-                // Row 1: Tab and top letter row (Q–P + Ü)
-                &kp TAB      &kp Q         &kp W         &kp E         &kp R         &kp T 
-                           &kp DE_Z      &kp U         &kp I         &kp O         &kp P         &kp DE_U_UMLAUT 
-                // Row 2: Home row (A–L + Ö Ä) with mod-taps for Ctrl/Alt/Gui/Shift
-                &kp DELETE   &mt LEFT_CONTROL A   &mt LEFT_ALT S   &mt LEFT_GUI D   &mt LEFT_SHIFT F   &kp G 
-                           &kp H         &mt RIGHT_SHIFT J   &mt RIGHT_GUI K   &mt RIGHT_ALT L   &mt RIGHT_CONTROL DE_O_UMLAUT   &kp DE_A_UMLAUT 
-                // Row 3: Bottom row (Z–M + comma, period, /) – layer-tap for scroll on Y and /, no physical key at far right
-                &kp LEFT_SHIFT   &lt 9 DE_Y      &kp X        &kp C        &kp V        &kp B 
-                           &kp N        &kp M        &kp DE_COMMA   &kp DE_PERIOD   &lt 9 DE_MINUS   &none 
-                // “Thumb” cluster: 4 left + 4 right (mirrored)
-                // Left thumbs: Fn (layer1) on hold + Esc on tap, Game layer (6) momentary, LAlt on hold + '(' on tap, LGUI on hold + Space on tap 
-                // Right thumbs: Del, RGUI on hold + Enter on tap, RAlt on hold + ')' on tap, toggle Numbers layer (2)
-                           &lt 1 ESC     &mo 6       &mt LALT LPAR      &mt LGUI SPACE     &kp DELETE    &mt RGUI ENTER 
-                           &mt RALT RPAR    &tog 2 
+        BASE {
+            bindings = <
+            &kp TAB       &kp Q       &kp W       &kp E       &kp R       &kp T    &kp Y       &kp U       &kp I       &kp O       &kp P       &kp BACKSPACE
+            &kp LCTRL    &kp A       &kp S       &kp D       &kp F       &kp G     &kp H       &kp J       &kp K       &kp L       &kp SEMICOLON   &lt 8 APOS
+            &lt 4 UP     &kp Z       &kp X       &kp C       &kp V       &kp B     &kp N       &kp M       &kp COMMA   &kp DOT    &lt 7 DOWN    &none
+            &lt 1 ESC    &mo 6       &mt LALT LPAR    &mt LGUI SPACE     &kp DEL    &mt RGUI ENTER
+                        &mt RALT RPAR           &tog 2
             >;
         };
 
-        win_raise_layer {
-            label = "NUMBERS";
-            bindings = < 
-                // Row 0: Symbol row (top) – common symbols
-                &kp DE_TILDE   &kp DE_EXCLAMATION   &kp DE_DOUBLE_QUOTES   &kp DE_HASH   &kp DE_DOLLAR   &kp DE_MINUS 
-                           &kp DE_AMPERSAND   &kp DE_ASTERISK   &kp DE_LEFT_PARENTHESIS   &kp DE_RIGHT_PARENTHESIS   &kp DE_PIPE   &kp BACKSPACE 
-                // Row 1: LAYER1 is active – assign braces to outer columns, letters pass through
-                &kp DE_LEFT_BRACE   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &kp DE_RIGHT_BRACE 
-                // Row 2: Mostly transparent (letters and home-row mods continue to work), assign backslash to Ö/; key position
-                &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &kp DE_BACKSLASH   &trans 
-                // Row 3: Bottom row – all transparent (inherits base functions), maintain placeholder at far right
-                &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &none 
+        NAV {
+            bindings = <
+            &kp F12       &kp F1       &kp F2       &kp F3       &kp F4       &kp F5       &kp F6       &kp F7       &kp F8       &kp F9       &kp F10       &kp F11
+            &trans       &kp SCROLLLOCK       &kp PAUSE_BREAK       &kp UP       &kp EQUAL       &kp LBRC       &kp RBRC       &kp N7       &kp N8       &kp N9       &kp KP_PLUS       &trans
+            &kp PRINTSCREEN  &kp INSERT      &kp LEFT        &kp DOWN           &kp RIGHT         &kp LBKT            &kp RBKT    &kp N4    &kp N5    &kp N6    &kp KP_MINUS      &kp KP_DIVIDE
+            &trans          &kp DEL         &kp PG_UP        &kp CAPS           &kp PG_DN         &kp LPAR            &kp RPAR    &kp N1    &kp N2     &kp N3    &kp KP_MULTIPLY   &trans
+                        &trans          &trans           &kp C_VOLUME_DOWN   &kp C_VOLUME_UP   &trans    &kp KP_DOT            &kp N0          &mo 3
             >;
         };
 
-        win_lower_layer {
-            label = "NAV-FUN";
-            bindings = < 
-                // Media/navigation layer (Layer 2) – function keys, arrows, etc.
-                &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                &kp ESCAPE   &kt F1   &kp F2   &kp F3   &kp F4   &kp F5 
-                           &kp F6   &kp F7   &kp F8   &kp F9   &kp F10   &kp F11 
-                &trans   &kp HOME   &kp PAGE_UP   &kp C_PREVIOUS   &kp C_PLAY_PAUSE   &kp C_NEXT 
-                           &trans   &kp LEFT_ARROW   &kp DOWN_ARROW   &kp UP_ARROW   &kp RIGHT_ARROW   &kp F12 
-                &trans   &kp END   &kp PAGE_DOWN   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                // Bottom row (thumbs) transparent – allow normal thumb keys (e.g. space, enter) on this layer
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans 
+        NUM {
+            bindings = <
+            &kp TILDE   &kp EXCL   &kp AT   &kp HASH   &kp DLLR   &kp PRCNT    &kp CARET   &kp AMPS   &kp STAR   &kp MINUS   &kp EQUAL   &kp BACKSPACE
+            &kp N0      &kp N1     &kp N2     &kp N3     &kp N4     &kp N5     &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &lt 8 ENTER
+            &trans   &kp GRAVE   &kp SLASH   &kp BACKSLASH   &kp LBRC   &kp LBKT   &kp RBKT   &kp RBRC   &kp COMMA   &kp DOT   &kp PIPE   &trans
+            &trans   &trans   &trans   &trans   &trans   &trans   &trans   &trans
             >;
         };
 
-        default_mac_layer {
-            label = "MAC";
-            bindings = < 
-                // Mac base layer (layer 3) – similar to win base, but with Mac-specific mod behaviors in thumbs
-                &kp ESCAPE   &kp N1   &kp N2   &kp N3   &kp N4   &kp N5 
-                           &kp N6   &kp N7   &kp N8   &kp N9   &kp N0   &kp DE_SQT 
-                &kp TAB   &kp Q   &kp W   &kp E   &kp R   &kp T 
-                           &kp DE_Z   &kp U   &kp I   &kp O   &kp P   &kp DE_U_UMLAUT 
-                &kp DELETE   &mt LEFT_CONTROL A   &mt LEFT_ALT S   &mt LEFT_GUI D   &mt LEFT_SHIFT F   &kp G 
-                           &kp H   &mt RIGHT_SHIFT J   &mt RIGHT_GUI K   &mt RIGHT_ALT L   &mt RIGHT_CONTROL DE_O_UMLAUT   &kp DE_A_UMLAUT 
-                &kp LEFT_SHIFT   &lt 9 DE_Y   &kp X   &kp C   &kp V   &kp B 
-                           &kp N   &kp M   &kp DE_COMMA   &kp DE_PERIOD   &lt 9 DE_MINUS   &none 
-                // Mac thumb cluster: hold layer4 (Mac symbols) on Tab, hold layer5 (Mac nav) on Enter, plus combined mod keys
-                           &lt 4 TAB   &mt LEFT_ALT SPACE   &lt 5 LEFT_GUI   &lt 4 ENTER   &kp DELETE    &mt LEFT_GUI ENTER 
-                           &mt LEFT_ALT BACKSPACE   &mo 5 
+        ADJ {
+            bindings = <
+            &kp F12  &kp F1       &kp F2          &kp F3            &kp F4             &kp F5             &kp F6                &kp F7      &kp F8      &kp F9      &kp F10       &kp F11
+            &trans   &sys_reset   &bt BT_PRV      &bt BT_NXT        &bt BT_CLR         &out OUT_TOG       &bt BT_SEL 0  &bt BT_CLR  &bt BT_PRV  &bt BT_NXT  &sys_reset    &trans
+            &trans   &bootloader  &kp C_PREVIOUS  &kp C_PLAY_PAUSE  &kp C_NEXT         &kp C_MUTE         &bt BT_SEL 1  &mkp MB1    &mkp MB2    &mkp MB3    &bootloader  &trans
+            &trans   &trans       &mo 5           &mo 4             &kp C_VOLUME_DOWN  &kp C_VOLUME_UP    &bt BT_SEL 2  &trans      &mo 4       &mo 5       &trans        &trans
+                      &trans       &trans          &trans            &trans             &trans                  &trans                &trans                  &trans
             >;
         };
 
-        mac_raise_layer {
-            label = "MAC-NUM";
-            bindings = < 
-                // Mac symbol/number layer (layer 4) – similar to win_raise, using DE keys
-                &kp DE_TILDE   &kp DE_EXCLAMATION   &kp DE_DOUBLE_QUOTES   &kp DE_HASH   &kp DE_DOLLAR   &kp DE_MINUS 
-                           &kp DE_AMPERSAND   &kp DE_ASTERISK   &kp DE_LEFT_PARENTHESIS   &kp DE_RIGHT_PARENTHESIS   &kp DE_PIPE   &kp BACKSPACE 
-                &kp DE_LEFT_BRACE   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &kp DE_RIGHT_BRACE 
-                &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &kp DE_BACKSLASH   &trans 
-                &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &none 
+        MOUSE {
+            bindings = <
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans          &trans    &trans    &trans    &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans          &trans    &trans    &trans    &trans    &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans          &trans    &mkp MB1  &mkp MB2  &mkp MB3  &trans  &trans
+            &trans  &trans  &mo 5   &trans  &trans  &trans          &trans    &trans    &trans    &mo 5     &trans  &trans
+                    &trans  &trans  &trans  &trans  &trans  &trans          &trans    &trans
             >;
         };
 
-        mac_lower_layer {
-            label = "MAC-NAV";
-            bindings = < 
-                // Mac navigation/media layer (layer 5) – same as NAV-FUN
-                &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                &kp ESCAPE   &kt F1   &kp F2   &kp F3   &kp F4   &kp F5 
-                           &kp F6   &kp F7   &kp F8   &kp F9   &kp F10   &kp F11 
-                &trans   &kp HOME   &kp PAGE_UP   &kp C_PREVIOUS   &kp C_PLAY_PAUSE   &kp C_NEXT 
-                           &trans   &kp LEFT_ARROW   &kp DOWN_ARROW   &kp UP_ARROW   &kp RIGHT_ARROW   &kp F12 
-                &trans   &kp END   &kp PAGE_DOWN   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans 
+        SCROLL {
+            bindings = <
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans          &trans    &trans    &trans    &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans          &trans    &trans    &trans    &trans    &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans          &trans    &mkp MB1  &mkp MB2  &mkp MB3  &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans          &trans    &trans    &trans    &trans    &trans  &trans
+                    &trans  &trans  &trans  &trans  &trans  &trans          &trans    &trans
             >;
         };
 
-        default_game_layer {
-            label = "GAME";
-            bindings = < 
-                // Game base layer (layer 6) – similar to Win base but with mods shifted for gaming (Alt on X, etc.)
-                &kp ESCAPE   &kp N1   &kp N2   &kp N3   &kp N4   &kp N5 
-                           &kp N6   &kp N7   &kp N8   &kp N9   &kp N0   &kp DE_SQT 
-                &kp TAB   &kp Q   &kp W   &kp E   &kp R   &kp T 
-                           &kp DE_Z   &kp U   &kp I   &kp O   &kp P   &kp DE_U_UMLAUT 
-                &kp DELETE   &mt LEFT_CONTROL A   &kp S   &kp D   &kp F   &kp G 
-                           &kp H   &mt RIGHT_SHIFT J   &mt RIGHT_GUI K   &mt RIGHT_ALT L   &mt RIGHT_CONTROL DE_O_UMLAUT   &kp DE_A_UMLAUT 
-                &kp LEFT_SHIFT   &lt 9 DE_Y   &mt LEFT_ALT X   &mt LEFT_GUI C   &mt LEFT_SHIFT V   &kp B 
-                           &kp N   &mt RIGHT_SHIFT M   &mt RIGHT_GUI DE_COMMA   &mt RIGHT_ALT DE_PERIOD   &lt 9 DE_MINUS   &none 
-                // Game thumb cluster: hold layer7 (game symbols) on Tab and Enter, hold layer8 (game nav) on LGUI, toggle layer8 via momentary
-                           &lt 7 TAB   &kp SPACE   &lt 8 LEFT_GUI   &lt 7 ENTER   &kp BACKSPACE   &mkp RCLK 
-                           &mkp LCLK   &mo 8 
+        EMACS {
+            bindings = <
+            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans &mo 7
             >;
         };
 
-        game_raise_layer {
-            label = "GAME-NUM";
-            bindings = < 
-                // Game symbols/numbers (layer 7) – same as Win raise layer
-                &kp DE_TILDE   &kp DE_EXCLAMATION   &kp DE_DOUBLE_QUOTES   &kp DE_HASH   &kp DE_DOLLAR   &kp DE_MINUS 
-                           &kp DE_AMPERSAND   &kp DE_ASTERISK   &kp DE_LEFT_PARENTHESIS   &kp DE_RIGHT_PARENTHESIS   &kp DE_PIPE   &kp BACKSPACE 
-                &kp DE_LEFT_BRACE   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &kp DE_RIGHT_BRACE 
-                &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &kp DE_BACKSLASH   &trans 
-                &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &none 
+        HYPM {
+            bindings = <
+            &none &none &none &none &none &none &none &none &none &none &none &none
+            &none &kp RG(Q) &kp RG(W) &kp RG(E) &kp RG(R) &kp RG(T) &kp RG(Y) &kp RG(U) &kp RG(I) &kp RG(O) &kp RG(P) &none
+            &none &kp RG(A) &kp RG(S) &kp RG(D) &kp RG(F) &kp RG(G) &kp RG(H) &kp RG(J) &kp RG(K) &kp RG(L) &none &none
+            &none &kp RG(Z) &kp RG(X) &kp RG(C) &kp RG(V) &kp RG(B) &kp RG(N) &kp RG(M) &none &none &none &none
+            &trans &trans &trans &trans &trans &trans &trans &trans
             >;
         };
 
-        game_lower_layer {
-            label = "GAME-NAV";
-            bindings = < 
-                // Game navigation (layer 8) – same as NAV-FUN layer
-                &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                &kp ESCAPE   &kt F1   &kp F2   &kp F3   &kp F4   &kp F5 
-                           &kp F6   &kp F7   &kp F8   &kp F9   &kp F10   &kp F11 
-                &trans   &kp HOME   &kp PAGE_UP   &kp C_PREVIOUS   &kp C_PLAY_PAUSE   &kp C_NEXT 
-                           &trans   &kp LEFT_ARROW   &kp DOWN_ARROW   &kp UP_ARROW   &kp RIGHT_ARROW   &kp F12 
-                &trans   &kp END   &kp PAGE_DOWN   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans 
-            >;
-        };
-
-        scroll_layer {
-            label = "SCROLL";
-            bindings = < 
-                // Layer 9: Trackball scroll mode (all keys transparent; used by sensor)
-                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
-                           &trans &trans &trans   &trans &trans   &trans &trans &trans 
-            >;
-        };
-
-        sniper_layer {
-            label = "SNIPER";
-            bindings = < 
-                // Layer 10: Trackball precision mode (all transparent)
-                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
-                           &trans &trans &trans   &trans &trans   &trans &trans &trans 
-            >;
-        };
-
-        keeb_pref_layer {
-            label = "FN";
-            bindings = < 
-                // Layer 11: Adjust/FN layer – Bluetooth select, reset, etc.
-                &ext_power EP_TOG   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                &bt BT_CLR   &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                &trans   &trans   &trans   &trans   &trans   &trans 
-                           &trans   &trans   &trans   &trans   &trans   &trans 
-                                          &trans   &trans   &trans   &trans   &trans 
-                                                    &trans   &trans   &trans   &trans 
+        MOVE {
+            bindings = <
+            &none &none &none &none &none &none &none &none &none &none &none &none
+            &none &none &kp PG_UP &none &none &none   &none &none &none &none &none &none
+            &trans &kp HOME &kp PG_DN &trans &trans &kp END  &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
+            &kp LCTRL &trans &trans &trans &kp LSHIFT &trans &trans &trans
             >;
         };
     };
